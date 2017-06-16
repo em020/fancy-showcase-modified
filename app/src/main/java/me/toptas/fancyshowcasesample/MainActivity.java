@@ -15,6 +15,7 @@ import butterknife.OnClick;
 import me.toptas.fancyshowcase.FancyShowCaseView;
 import me.toptas.fancyshowcase.FocusShape;
 import me.toptas.fancyshowcase.OnViewInflateListener;
+import me.toptas.fancyshowcase.OnViewInflateListenerV2;
 
 public class MainActivity extends BaseActivity {
 
@@ -23,6 +24,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        StatusBarFucker fucker = new StatusBarFucker();
+        fucker.setWindowExtend(1);
+        fucker.setStatusBarColor(Color.argb(100, 0, 0, 0));
+        fucker.fuck(getWindow());
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
     }
@@ -198,12 +205,26 @@ public class MainActivity extends BaseActivity {
     public void focusWithCustomView(View view) {
         mFancyShowCaseView = new FancyShowCaseView.Builder(this)
                 .focusOn(view)
-                .customView(R.layout.layout_my_custom_view, new OnViewInflateListener() {
+                .customView(R.layout.layout_my_custom_view, new OnViewInflateListenerV2() {
                     @Override
-                    public void onViewInflated(View view) {
+                    public void onViewInflated(View view, final int focusCenterX, final int focusCenterY) {
                         view.findViewById(R.id.btn_action_1).setOnClickListener(mClickListener);
+                        final View image = view.findViewById(R.id.image);
+
+                        view.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                int imageCenterX = image.getRight() / 2;
+                                int imageCenterY = image.getBottom() / 2;
+                                image.setTranslationX(focusCenterX - imageCenterX);
+                                image.setTranslationY(focusCenterY - imageCenterY);
+
+                            }
+                        });
                     }
                 })
+                .fitSystemWindows(true)
                 .closeOnTouch(false)
                 .build();
         mFancyShowCaseView.show();

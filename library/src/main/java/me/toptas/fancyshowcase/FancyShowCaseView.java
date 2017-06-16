@@ -96,6 +96,12 @@ public class FancyShowCaseView extends FrameLayout {
     private int mFocusBorderSize;
     private int mRoundRectRadius;
     private OnViewInflateListener mViewInflateListener;
+
+    public void setViewInflateListenerV2(OnViewInflateListenerV2 viewInflateListenerV2) {
+        this.mViewInflateListenerV2 = viewInflateListenerV2;
+    }
+
+    private OnViewInflateListenerV2 mViewInflateListenerV2;
     private Animation mEnterAnimation, mExitAnimation;
     private boolean mCloseOnTouch;
     private boolean mFitSystemWindows;
@@ -362,6 +368,9 @@ public class FancyShowCaseView extends FrameLayout {
         if (viewInflateListener != null) {
             viewInflateListener.onViewInflated(view);
         }
+        if (mViewInflateListenerV2 != null) {
+            mViewInflateListenerV2.onViewInflated(view, mCenterX, mCenterY);
+        }
     }
 
     /**
@@ -504,6 +513,7 @@ public class FancyShowCaseView extends FrameLayout {
         private int mCustomViewRes;
         private int mRoundRectRadius;
         private OnViewInflateListener mViewInflateListener;
+        private OnViewInflateListenerV2 mViewInflateListenerV2;
         private Animation mEnterAnimation, mExitAnimation;
         private boolean mCloseOnTouch = true;
         private boolean mFitSystemWindows;
@@ -642,6 +652,17 @@ public class FancyShowCaseView extends FrameLayout {
         }
 
         /**
+         * @param layoutResource custom view layout resource
+         * @param listener       inflate listener for custom view
+         * @return Builder
+         */
+        public Builder customView(@LayoutRes int layoutResource, @Nullable OnViewInflateListenerV2 listener) {
+            mCustomViewRes = layoutResource;
+            mViewInflateListenerV2 = listener;
+            return this;
+        }
+
+        /**
          * @param enterAnimation enter animation for FancyShowCaseView
          * @return Builder
          */
@@ -748,10 +769,14 @@ public class FancyShowCaseView extends FrameLayout {
          * @return {@link FancyShowCaseView} with given parameters
          */
         public FancyShowCaseView build() {
-            return new FancyShowCaseView(mActivity, mView, mId, mTitle, mSpannedTitle, mTitleGravity, mTitleStyle, mTitleSize, mTitleSizeUnit,
+
+            FancyShowCaseView fff = new FancyShowCaseView(mActivity, mView, mId, mTitle, mSpannedTitle, mTitleGravity, mTitleStyle, mTitleSize, mTitleSizeUnit,
                     mFocusCircleRadiusFactor, mBackgroundColor, mFocusBorderColor, mFocusBorderSize, mCustomViewRes, mViewInflateListener,
                     mEnterAnimation, mExitAnimation, mCloseOnTouch, mFitSystemWindows, mFocusShape, mDismissListener, mRoundRectRadius,
                     mFocusPositionX, mFocusPositionY, mFocusCircleRadius, mFocusRectangleWidth, mFocusRectangleHeight, mFocusAnimationEnabled);
+
+            fff.setViewInflateListenerV2(mViewInflateListenerV2);
+            return fff;
         }
     }
 }
