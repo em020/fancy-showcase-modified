@@ -20,9 +20,9 @@ class FancyImageView extends ImageView {
     private int mBackgroundColor = Color.TRANSPARENT;
     private int mFocusBorderColor = Color.TRANSPARENT;
     private int mFocusBorderSize;
-    private int mRoundRectRadius = 20;
+    private int mRoundRectRadius = 0;
     private Calculator mCalculator;
-    private int mAnimCounter = 20;
+    private int mAnimCounter = 0;
     private int mStep = 1;
     private double mAnimMoveFactor = 1;
     private boolean mAnimationEnabled = true;

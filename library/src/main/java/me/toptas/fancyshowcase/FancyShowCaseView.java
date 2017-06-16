@@ -235,7 +235,7 @@ public class FancyShowCaseView extends FrameLayout {
             //mContainer = new FrameLayout(mActivity);
             setTag(CONTAINER_TAG);
             if (mCloseOnTouch) {
-                setOnClickListener(new View.OnClickListener() {
+                setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         hide();
@@ -264,7 +264,7 @@ public class FancyShowCaseView extends FrameLayout {
                 mCalculator.setCirclePosition(mFocusPositionX, mFocusPositionY, mFocusCircleRadius);
             }
             imageView.setAnimationEnabled(mFocusAnimationEnabled);
-            imageView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            imageView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
             if (mFocusBorderColor != 0 && mFocusBorderSize > 0) {
                 imageView.setBorderParameters(mFocusBorderColor, mFocusBorderSize);
@@ -316,7 +316,7 @@ public class FancyShowCaseView extends FrameLayout {
     private void startEnterAnimation() {
         if (mEnterAnimation != null) {
             startAnimation(mEnterAnimation);
-        } else if (Utils.shouldShowCircularAnimation()) {
+        } else if (false && Utils.shouldShowCircularAnimation()) {
             doCircularEnterAnimation();
         } else {
             Animation fadeInAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.fscv_fade_in);
@@ -331,7 +331,7 @@ public class FancyShowCaseView extends FrameLayout {
     public void hide() {
         if (mExitAnimation != null) {
             startAnimation(mExitAnimation);
-        } else if (Utils.shouldShowCircularAnimation()) {
+        } else if (false && Utils.shouldShowCircularAnimation()) {
             doCircularExitAnimation();
         } else {
             Animation fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.fscv_fade_out);

@@ -1,17 +1,17 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
 
-group = 'com.github.jitpack'
+//group = 'com.github.jitpack'
 
 android {
-    compileSdkVersion compile_sdk_version
-    buildToolsVersion "$build_tools_version"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
-        minSdkVersion min_sdk_version
-        targetSdkVersion target_sdk_version
+        minSdkVersion 10
+        targetSdkVersion 25
         versionCode 1
-        versionName "$version_name"
+        versionName "0.1.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -25,7 +25,7 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:$support_version"
+    compile "com.android.support:appcompat-v7:25.3.1"
 }
 
 task sourcesJar(type: Jar) {
