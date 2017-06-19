@@ -17,6 +17,18 @@ class Calculator {
     private int mFocusWidth, mFocusHeight, mCircleCenterX, mCircleCenterY, mCircleRadius;
     private boolean mHasFocus;
 
+    private int roundRectPaddingLeft;
+    private int roundRectPaddingTop;
+    private int roundRectPaddingRight;
+    private int roundRectPaddingBottom;
+
+    public void setRoundRectPadding(int left, int top, int right, int bottom) {
+        roundRectPaddingLeft = left;
+        roundRectPaddingTop  = top;
+        roundRectPaddingRight = right;
+        roundRectPaddingBottom = bottom;
+    }
+
 
     public void setmCircleRadius(int mCircleRadius) {
         this.mCircleRadius = mCircleRadius;
@@ -161,7 +173,8 @@ class Calculator {
      * @return Bottom position of round rect
      */
     float roundRectLeft(int animCounter, double animMoveFactor) {
-        return (float) (mCircleCenterX - mFocusWidth / 2 - animCounter * animMoveFactor );
+        /*return (float) (mCircleCenterX - mFocusWidth / 2 - animCounter * animMoveFactor );*/
+        return (float) (mCircleCenterX - mFocusWidth / 2d - roundRectPaddingLeft - animCounter * animMoveFactor );
     }
 
     /**
@@ -170,7 +183,8 @@ class Calculator {
      * @return Top position of focus round rect
      */
     float roundRectTop(int animCounter, double animMoveFactor) {
-        return (float) (mCircleCenterY - mFocusHeight / 2 - animCounter * animMoveFactor);
+        /*return (float) (mCircleCenterY - mFocusHeight / 2 - animCounter * animMoveFactor);*/
+        return (float) (mCircleCenterY - mFocusHeight / 2d - roundRectPaddingTop - animCounter * animMoveFactor);
     }
 
     /**
@@ -179,7 +193,8 @@ class Calculator {
      * @return Bottom position of round rect
      */
     float roundRectRight(int animCounter, double animMoveFactor) {
-        return (float) (mCircleCenterX + mFocusWidth / 2 + animCounter * animMoveFactor);
+        /*return (float) (mCircleCenterX + mFocusWidth / 2 + animCounter * animMoveFactor);*/
+        return (float) (mCircleCenterX + mFocusWidth / 2d + roundRectPaddingRight + animCounter * animMoveFactor);
     }
 
     /**
@@ -188,7 +203,8 @@ class Calculator {
      * @return Bottom position of round rect
      */
     float roundRectBottom(int animCounter, double animMoveFactor) {
-        return (float) (mCircleCenterY + mFocusHeight / 2 + animCounter * animMoveFactor);
+        /*return (float) (mCircleCenterY + mFocusHeight / 2 + animCounter * animMoveFactor);*/
+        return (float) (mCircleCenterY + mFocusHeight / 2d + roundRectPaddingBottom + animCounter * animMoveFactor);
     }
 
     /**

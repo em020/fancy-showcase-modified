@@ -96,12 +96,6 @@ public class FancyShowCaseView extends FrameLayout {
     private int mFocusBorderSize;
     private int mRoundRectRadius;
     private OnViewInflateListener mViewInflateListener;
-
-    public void setViewInflateListenerV2(OnViewInflateListenerV2 viewInflateListenerV2) {
-        this.mViewInflateListenerV2 = viewInflateListenerV2;
-    }
-
-    private OnViewInflateListenerV2 mViewInflateListenerV2;
     private Animation mEnterAnimation, mExitAnimation;
     private boolean mCloseOnTouch;
     private boolean mFitSystemWindows;
@@ -118,6 +112,13 @@ public class FancyShowCaseView extends FrameLayout {
     private int mFocusPositionX, mFocusPositionY, mFocusCircleRadius, mFocusRectangleWidth, mFocusRectangleHeight;
 
     private boolean mFocusAnimationEnabled;
+
+    private int roundRectPaddingLeft;
+    private int roundRectPaddingTop;
+    private int roundRectPaddingRight;
+    private int roundRectPaddingBottom;
+
+    private OnViewInflateListenerV2 mViewInflateListenerV2;
 
     /**
      * Constructor for FancyShowCaseView
@@ -210,6 +211,17 @@ public class FancyShowCaseView extends FrameLayout {
         mSharedPreferences = mActivity.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
+    public void setRoundRectPadding(int left, int top, int right, int bottom) {
+        roundRectPaddingLeft = left;
+        roundRectPaddingTop  = top;
+        roundRectPaddingRight = right;
+        roundRectPaddingBottom = bottom;
+    }
+
+    public void setViewInflateListenerV2(OnViewInflateListenerV2 viewInflateListenerV2) {
+        this.mViewInflateListenerV2 = viewInflateListenerV2;
+    }
+
     /**
      * Shows FancyShowCaseView
      */
@@ -263,13 +275,15 @@ public class FancyShowCaseView extends FrameLayout {
             if (mFocusCircleRadius > 0) {
                 mCalculator.setCirclePosition(mFocusPositionX, mFocusPositionY, mFocusCircleRadius);
             }
+            mCalculator.setRoundRectPadding(roundRectPaddingLeft, roundRectPaddingTop, roundRectPaddingRight, roundRectPaddingBottom);
+
             imageView.setAnimationEnabled(mFocusAnimationEnabled);
             imageView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
             if (mFocusBorderColor != 0 && mFocusBorderSize > 0) {
                 imageView.setBorderParameters(mFocusBorderColor, mFocusBorderSize);
             }
-            if (mRoundRectRadius > 0) {
+            if (mRoundRectRadius >= 0) {
                 imageView.setRoundRectRadius(mRoundRectRadius);
             }
             //imageView.setImageBitmap(bitmap);
@@ -511,7 +525,7 @@ public class FancyShowCaseView extends FrameLayout {
         private int mTitleSizeUnit = -1;
         private int mTitleStyle;
         private int mCustomViewRes;
-        private int mRoundRectRadius;
+        private int mRoundRectRadius = -1;
         private OnViewInflateListener mViewInflateListener;
         private OnViewInflateListenerV2 mViewInflateListenerV2;
         private Animation mEnterAnimation, mExitAnimation;
@@ -522,6 +536,11 @@ public class FancyShowCaseView extends FrameLayout {
         private int mFocusBorderSize;
         private int mFocusPositionX, mFocusPositionY, mFocusCircleRadius, mFocusRectangleWidth, mFocusRectangleHeight;
         private boolean mFocusAnimationEnabled = true;
+
+        private int roundRectPaddingLeft;
+        private int roundRectPaddingTop;
+        private int roundRectPaddingRight;
+        private int roundRectPaddingBottom;
 
         /**
          * Constructor for Builder class
@@ -763,6 +782,15 @@ public class FancyShowCaseView extends FrameLayout {
             return this;
         }
 
+
+        public Builder roundRectPadding(int left, int top, int right, int bottom) {
+            roundRectPaddingLeft = left;
+            roundRectPaddingTop = top;
+            roundRectPaddingRight = right;
+            roundRectPaddingBottom =bottom;
+            return this;
+        }
+
         /**
          * builds the builder
          *
@@ -776,6 +804,9 @@ public class FancyShowCaseView extends FrameLayout {
                     mFocusPositionX, mFocusPositionY, mFocusCircleRadius, mFocusRectangleWidth, mFocusRectangleHeight, mFocusAnimationEnabled);
 
             fff.setViewInflateListenerV2(mViewInflateListenerV2);
+
+            fff.setRoundRectPadding(roundRectPaddingLeft, roundRectPaddingTop, roundRectPaddingRight, roundRectPaddingBottom);
+
             return fff;
         }
     }
