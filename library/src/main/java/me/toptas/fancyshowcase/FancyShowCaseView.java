@@ -802,6 +802,9 @@ public class FancyShowCaseView extends FrameLayout {
             return this;
         }
 
+        /**
+         * 当设置形状为圆形时，对focus区域周围增加padding，正padding相当于加大focus区域，负padding相当于减小focus区域
+         */
         public Builder circlePadding(int padding) {
             circlePadding= padding;
             return this;
