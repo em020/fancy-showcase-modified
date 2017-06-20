@@ -782,12 +782,14 @@ public class FancyShowCaseView extends FrameLayout {
             return this;
         }
 
-
+        /**
+         * 当设置形状为圆角矩形时，对focus区域周围增加padding，正padding相当于加大focus区域，负padding相当于减小focus区域
+         */
         public Builder roundRectPadding(int left, int top, int right, int bottom) {
             roundRectPaddingLeft = left;
             roundRectPaddingTop = top;
             roundRectPaddingRight = right;
-            roundRectPaddingBottom =bottom;
+            roundRectPaddingBottom = bottom;
             return this;
         }
 
