@@ -118,6 +118,8 @@ public class FancyShowCaseView extends FrameLayout {
     private int roundRectPaddingRight;
     private int roundRectPaddingBottom;
 
+    private int circlePadding;
+
     private OnViewInflateListenerV2 mViewInflateListenerV2;
 
     /**
@@ -218,6 +220,10 @@ public class FancyShowCaseView extends FrameLayout {
         roundRectPaddingBottom = bottom;
     }
 
+    public void setCirclePadding(int circlePadding) {
+        this.circlePadding = circlePadding;
+    }
+
     public void setViewInflateListenerV2(OnViewInflateListenerV2 viewInflateListenerV2) {
         this.mViewInflateListenerV2 = viewInflateListenerV2;
     }
@@ -235,9 +241,9 @@ public class FancyShowCaseView extends FrameLayout {
 
         mCalculator = new Calculator(mActivity, mFocusShape, mView, mFocusCircleRadiusFactor,
                 mFitSystemWindows);
-        Bitmap bitmap = Bitmap.createBitmap(mCalculator.getBitmapWidth(), mCalculator.getBitmapHeight(),
+        /*Bitmap bitmap = Bitmap.createBitmap(mCalculator.getBitmapWidth(), mCalculator.getBitmapHeight(),
                 Bitmap.Config.ARGB_8888);
-        bitmap.eraseColor(mBackgroundColor);
+        bitmap.eraseColor(mBackgroundColor);*/
 
         ViewGroup androidContent = (ViewGroup) mActivity.findViewById(android.R.id.content);
         mRoot = (ViewGroup) androidContent.getParent().getParent();
@@ -276,6 +282,7 @@ public class FancyShowCaseView extends FrameLayout {
                 mCalculator.setCirclePosition(mFocusPositionX, mFocusPositionY, mFocusCircleRadius);
             }
             mCalculator.setRoundRectPadding(roundRectPaddingLeft, roundRectPaddingTop, roundRectPaddingRight, roundRectPaddingBottom);
+            mCalculator.setCirclePadding(circlePadding);
 
             imageView.setAnimationEnabled(mFocusAnimationEnabled);
             imageView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -542,6 +549,8 @@ public class FancyShowCaseView extends FrameLayout {
         private int roundRectPaddingRight;
         private int roundRectPaddingBottom;
 
+        private int circlePadding;
+
         /**
          * Constructor for Builder class
          *
@@ -793,6 +802,11 @@ public class FancyShowCaseView extends FrameLayout {
             return this;
         }
 
+        public Builder circlePadding(int padding) {
+            circlePadding= padding;
+            return this;
+        }
+
         /**
          * builds the builder
          *
@@ -808,6 +822,8 @@ public class FancyShowCaseView extends FrameLayout {
             fff.setViewInflateListenerV2(mViewInflateListenerV2);
 
             fff.setRoundRectPadding(roundRectPaddingLeft, roundRectPaddingTop, roundRectPaddingRight, roundRectPaddingBottom);
+
+            fff.setCirclePadding(circlePadding);
 
             return fff;
         }

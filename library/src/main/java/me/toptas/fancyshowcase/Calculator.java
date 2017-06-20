@@ -21,6 +21,7 @@ class Calculator {
     private int roundRectPaddingTop;
     private int roundRectPaddingRight;
     private int roundRectPaddingBottom;
+    private int circlePadding;
 
     public void setRoundRectPadding(int left, int top, int right, int bottom) {
         roundRectPaddingLeft = left;
@@ -28,6 +29,11 @@ class Calculator {
         roundRectPaddingRight = right;
         roundRectPaddingBottom = bottom;
     }
+
+    public void setCirclePadding(int circlePadding) {
+        this.circlePadding = circlePadding;
+    }
+
 
 
     public void setmCircleRadius(int mCircleRadius) {
@@ -163,7 +169,7 @@ class Calculator {
      * @return Radius of animating circle
      */
     float circleRadius(int animCounter, double animMoveFactor) {
-        return (float) (mCircleRadius + animCounter * animMoveFactor);
+        return (float) (mCircleRadius + circlePadding + animCounter * animMoveFactor);
     }
 
 

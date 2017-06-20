@@ -185,7 +185,7 @@ class FancyImageView extends ImageView {
         if (mFocusBorderSize > 0) {
             mPath.reset();
             mPath.moveTo(mCalculator.getCircleCenterX(), mCalculator.getCircleCenterY());
-            mPath.addRoundRect(rectF, mRoundRectRadius,mRoundRectRadius, Path.Direction.CW);
+            mPath.addRoundRect(rectF, mRoundRectRadius, mRoundRectRadius, Path.Direction.CW);
             canvas.drawPath(mPath, mCircleBorderPaint);
         }
     }
