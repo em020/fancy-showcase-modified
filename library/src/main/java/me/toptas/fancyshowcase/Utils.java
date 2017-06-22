@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.Build;
+import android.util.TypedValue;
 import android.view.View;
 
 /**
@@ -76,4 +77,12 @@ class Utils {
         return result;
     }
 
+
+    /**
+     * handles decimal dp value just like the system does
+     */
+    public static int dp2pxV2(Context context, float dpValue) {
+        float val = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, context.getResources().getDisplayMetrics());
+        return (int) (val + 0.5);
+    }
 }

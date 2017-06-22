@@ -1,6 +1,7 @@
 package me.toptas.fancyshowcase;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.view.View;
@@ -79,12 +80,25 @@ public class FocusDescriptor {
         return this;
     }
 
+    public FocusDescriptor rectRadiusDp(Context context, int roundRectRadiusInDp) {
+        int px = Utils.dp2pxV2(context, roundRectRadiusInDp);
+        return rectRadius(px);
+    }
+
     public FocusDescriptor rectPadding(int left, int top, int right, int bottom) {
         roundRectPaddingLeft = left;
         roundRectPaddingTop = top;
         roundRectPaddingRight = right;
         roundRectPaddingBottom = bottom;
         return this;
+    }
+
+    public FocusDescriptor rectPaddingDp(Context context, int left, int top, int right, int bottom) {
+        int l = Utils.dp2pxV2(context, left);
+        int t = Utils.dp2pxV2(context, top);
+        int r = Utils.dp2pxV2(context, right);
+        int b = Utils.dp2pxV2(context, bottom);
+        return rectPadding(l, t, r ,b);
     }
 
 
@@ -103,6 +117,11 @@ public class FocusDescriptor {
         return this;
     }
 
+    public FocusDescriptor circlePaddingDp(Context context, int paddingDp) {
+        int px = Utils.dp2pxV2(context, paddingDp);
+        return circlePadding(px);
+    }
+
     public FocusDescriptor borderColor(int color) {
         this.focusBorderColor = color;
         return this;
@@ -111,6 +130,11 @@ public class FocusDescriptor {
     public FocusDescriptor borderSize(int borderSize) {
         focusBorderSize = borderSize;
         return this;
+    }
+
+    public FocusDescriptor borderSizeDp(Context context, int borderSizeDp) {
+        int px = Utils.dp2pxV2(context, borderSizeDp);
+        return borderSize(px);
     }
 
 
