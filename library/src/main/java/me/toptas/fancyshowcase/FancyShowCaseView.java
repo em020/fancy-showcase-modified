@@ -245,6 +245,14 @@ public class FancyShowCaseView extends FrameLayout {
         mFocusAnimationEnabled = enabled;
     }
 
+    public void setEnterAnimation(Animation animation) {
+        mEnterAnimation = animation;
+    }
+
+    public void setExitAnimation(Animation animation) {
+        this.mExitAnimation = animation;
+    }
+
     /**
      * Shows FancyShowCaseView
      */
@@ -373,28 +381,56 @@ public class FancyShowCaseView extends FrameLayout {
      * Starts enter animation of FancyShowCaseView
      */
     private void startEnterAnimation() {
+//        if (mEnterAnimation != null) {
+//            startAnimation(mEnterAnimation);
+//        } else if (Utils.shouldShowCircularAnimation()) {
+//            doCircularEnterAnimation();
+//        } else {
+//            Animation fadeInAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.fscv_fade_in);
+//            fadeInAnimation.setFillAfter(true);
+//            startAnimation(fadeInAnimation);
+//        }
+
         if (mEnterAnimation != null) {
             startAnimation(mEnterAnimation);
-        } else if (false && Utils.shouldShowCircularAnimation()) {
-            doCircularEnterAnimation();
-        } else {
-            Animation fadeInAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.fscv_fade_in);
-            fadeInAnimation.setFillAfter(true);
-            startAnimation(fadeInAnimation);
         }
     }
+
 
     /**
      * Hides FancyShowCaseView with animation
      */
     public void hide() {
-        if (mExitAnimation != null) {
-            startAnimation(mExitAnimation);
-        } else if (false && Utils.shouldShowCircularAnimation()) {
-            doCircularExitAnimation();
+//        if (mExitAnimation != null) {
+//            startAnimation(mExitAnimation);
+//        } else if (Utils.shouldShowCircularAnimation()) {
+//            doCircularExitAnimation();
+//        } else {
+//            Animation fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.fscv_fade_out);
+//            fadeOut.setAnimationListener(new Animation.AnimationListener() {
+//                @Override
+//                public void onAnimationStart(Animation animation) {
+//
+//                }
+//
+//                @Override
+//                public void onAnimationEnd(Animation animation) {
+//                    removeView();
+//                }
+//
+//                @Override
+//                public void onAnimationRepeat(Animation animation) {
+//
+//                }
+//            });
+//            fadeOut.setFillAfter(true);
+//            startAnimation(fadeOut);
+//        }
+
+        if (mExitAnimation == null) {
+            removeView();
         } else {
-            Animation fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.fscv_fade_out);
-            fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            mExitAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
 
@@ -410,8 +446,7 @@ public class FancyShowCaseView extends FrameLayout {
 
                 }
             });
-            fadeOut.setFillAfter(true);
-            startAnimation(fadeOut);
+            startAnimation(mExitAnimation);
         }
     }
 
@@ -598,6 +633,14 @@ public class FancyShowCaseView extends FrameLayout {
          */
         public Builder(Activity activity) {
             mActivity = activity;
+
+            Animation fadeIn = AnimationUtils.loadAnimation(mActivity, R.anim.fscv_fade_in);
+            fadeIn.setFillAfter(true);
+            mEnterAnimation = fadeIn;
+
+            Animation fadeOut = AnimationUtils.loadAnimation(mActivity, R.anim.fscv_fade_out);
+            fadeOut.setFillAfter(true);
+            mExitAnimation = fadeOut;
         }
 
 
