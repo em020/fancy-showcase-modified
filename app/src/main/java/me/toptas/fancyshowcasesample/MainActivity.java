@@ -2,20 +2,29 @@ package me.toptas.fancyshowcasesample;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.toptas.fancyshowcase.AutoPositionViewInflateListener;
 import me.toptas.fancyshowcase.FancyShowCaseView;
+import me.toptas.fancyshowcase.FocusDescriptor;
 import me.toptas.fancyshowcase.FocusShape;
 import me.toptas.fancyshowcase.OnViewInflateListener;
 import me.toptas.fancyshowcase.OnViewInflateListenerV2;
+import me.toptas.fancyshowcase.OnViewInflateListenerV3;
 
 public class MainActivity extends BaseActivity {
 
@@ -25,10 +34,10 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        StatusBarFucker fucker = new StatusBarFucker();
-        fucker.setWindowExtend(1);
-        fucker.setStatusBarColor(Color.argb(100, 0, 0, 0));
-        fucker.fuck(getWindow());
+//        StatusBarFucker fucker = new StatusBarFucker();
+//        fucker.setWindowExtend(1);
+//        fucker.setStatusBarColor(Color.argb(100, 0, 0, 0));
+//        fucker.fuck(getWindow());
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -40,10 +49,12 @@ public class MainActivity extends BaseActivity {
      */
     @OnClick(R.id.btn_simple)
     public void simple() {
-        new FancyShowCaseView.Builder(this)
-                .title("No Focus")
-                .build()
-                .show();
+//        new FancyShowCaseView.Builder(this)
+//                .title("No Focus")
+//                .build()
+//                .show();
+
+        startActivity(new Intent(this, TestConstraintLayoutActivity.class));
     }
 
     /**
@@ -51,13 +62,55 @@ public class MainActivity extends BaseActivity {
      *
      * @param view View to focus
      */
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @OnClick(R.id.btn_focus)
     public void focusView(View view) {
-        new FancyShowCaseView.Builder(this)
-                .focusOn(view)
-                .title("Focus on View")
-                .build()
-                .show();
+
+//        new FancyShowCaseView.Builder(this)
+//                .focusOn(view)
+//                .circlePadding(-30)
+//                .title("Focus on View")
+//                .build()
+//                .show();
+
+        FancyShowCaseView foo = FancyShowCaseView.newInstance(this);
+
+        foo.addFocusDescriptor(new FocusDescriptor().shape(FocusShape.ROUNDED_RECTANGLE)
+                .target(this, view)
+                .rectRadius(0)
+                .rectPadding(-20, 30, -20, 60)
+                .borderColor(Color.RED)
+                .borderSize(3));
+
+        foo.addFocusDescriptor(new FocusDescriptor().shape(FocusShape.ROUNDED_RECTANGLE)
+                /*.target(findViewById(R.id.btn_rounded_rect))*/
+                .rect(200, 800, 200, 200)
+                /*.rectRadius(100)*/
+                .borderColor(Color.GREEN)
+                .borderSize(8));
+
+        foo.addFocusDescriptor(new FocusDescriptor().shape(FocusShape.CIRCLE)
+                .target(this, findViewById(R.id.btn_rounded_rect))
+                .circlePadding(-60)
+                .borderColor(Color.BLUE)
+                .borderSize(1));
+
+        foo.setCustomView(R.layout.layout_my_custom_view_4, new AutoPositionViewInflateListener(new OnViewInflateListener() {
+            @Override
+            public void onViewInflated(View view) {
+                Button button  = (Button) view.findViewById(R.id.button);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainActivity.this, "YEAH!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        }));
+
+        foo.show();
+
     }
 
     /**
@@ -67,13 +120,18 @@ public class MainActivity extends BaseActivity {
      */
     @OnClick(R.id.btn_rounded_rect)
     public void focusRoundedRect(View view) {
-        new FancyShowCaseView.Builder(this)
-                .focusOn(view)
-                .focusShape(FocusShape.ROUNDED_RECTANGLE)
-                .roundRectRadius(90)
-                .title("Focus on View")
-                .build()
-                .show();
+//        new FancyShowCaseView.Builder(this)
+//                .focusOn(view)
+//                .focusShape(FocusShape.ROUNDED_RECTANGLE)
+//                .roundRectRadius(90)
+//                .title("Focus on View")
+//                .build()
+//                .show();
+
+        FancyShowCaseView foo = FancyShowCaseView.newInstance(this);
+        foo.addFocusDescriptor(new FocusDescriptor().shape(FocusShape.ROUNDED_RECTANGLE).target(this, view).rectPadding(10, 20, 30, 40));
+        foo.setCustomView(R.layout.layout_my_custom_view_3, new AutoPositionViewInflateListener());
+        foo.show();
     }
 
     /**
@@ -224,7 +282,7 @@ public class MainActivity extends BaseActivity {
                         });
                     }
                 })
-                .fitSystemWindows(true)
+                /*.fitSystemWindows(true)*/
                 .closeOnTouch(false)
                 .build();
         mFancyShowCaseView.show();

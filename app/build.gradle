@@ -28,4 +28,5 @@ dependencies {
     apt "com.jakewharton:butterknife-compiler:$butterknife_version"
 
     compile project(':library')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
