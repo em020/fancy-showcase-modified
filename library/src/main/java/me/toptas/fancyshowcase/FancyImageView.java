@@ -17,15 +17,18 @@ class FancyImageView extends ImageView {
     private static final int ANIM_COUNTER_MAX = 20;
     private Bitmap mBitmap;
     private Paint mBackgroundPaint, mErasePaint, mCircleBorderPaint;
-    private int mBackgroundColor = Color.TRANSPARENT;
-    private int mFocusBorderColor = Color.TRANSPARENT;
-    private int mFocusBorderSize;
-    private int mRoundRectRadius = 20;
-    private Calculator mCalculator;
-    private int mAnimCounter = 0;
-    private int mStep = 1;
-    private double mAnimMoveFactor = 1;
-    private boolean mAnimationEnabled = true;
+
+    private int mBackgroundColor = Color.TRANSPARENT;  // per FancyImageView
+    private int mAnimCounter = 0;                       // per FancyImageView
+    private int mStep = 1;                              // per FancyImageView
+    private double mAnimMoveFactor = 1;                 // per FancyImageView
+    private boolean mAnimationEnabled = true;           // per FancyImageView
+
+    private int mFocusBorderColor = Color.TRANSPARENT;      // per focus area
+    private int mFocusBorderSize;                           // per focus area
+    private int mRoundRectRadius = 20;                      // per focus area
+    private Calculator mCalculator;                         // per focus area
+
     private Path mPath;
     private RectF rectF;
 
@@ -132,6 +135,7 @@ class FancyImageView extends ImageView {
 
         }
         canvas.drawBitmap(mBitmap, 0, 0, mBackgroundPaint);
+
         if (mCalculator.hasFocus()) {
             if (mCalculator.getFocusShape().equals(FocusShape.CIRCLE)) {
                 drawCircle(canvas);

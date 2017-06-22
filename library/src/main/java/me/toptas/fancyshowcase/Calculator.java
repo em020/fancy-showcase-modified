@@ -34,11 +34,10 @@ class Calculator {
         this.circlePadding = circlePadding;
     }
 
-
-
     public void setmCircleRadius(int mCircleRadius) {
         this.mCircleRadius = mCircleRadius;
     }
+
     Calculator(Activity activity, FocusShape focusShape, View view, double radiusFactor,
                boolean fitSystemWindows) {
 

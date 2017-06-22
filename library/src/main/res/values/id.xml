@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fscv_anchor1" type="id"/>
+    <item name="fscv_anchor2" type="id"/>
+    <item name="fscv_anchor3" type="id"/>
+    <item name="fscv_anchor4" type="id"/>
+    <item name="fscv_anchor5" type="id"/>
+    <item name="fscv_anchor6" type="id"/>
+    <item name="fscv_anchor7" type="id"/>
+    <item name="fscv_anchor8" type="id"/>
+    <item name="fscv_anchor9" type="id"/>
+    <item name="fscv_anchor10" type="id"/>
+
+    <item name="fscv_view1" type="id"/>
+    <item name="fscv_view2" type="id"/>
+    <item name="fscv_view3" type="id"/>
+    <item name="fscv_view4" type="id"/>
+    <item name="fscv_view5" type="id"/>
+    <item name="fscv_view6" type="id"/>
+    <item name="fscv_view7" type="id"/>
+    <item name="fscv_view8" type="id"/>
+    <item name="fscv_view9" type="id"/>
+    <item name="fscv_view10" type="id"/>
+</resources>

@@ -27,6 +27,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by faruktoptas on 05/03/17.
  * FancyShowCaseView class
@@ -34,21 +37,14 @@ import android.widget.TextView;
 
 public class FancyShowCaseView extends FrameLayout {
 
+    public static FancyShowCaseView newInstance(Activity activity) {
+        return new FancyShowCaseView.Builder(activity).title("TEST").build();
+    }
+
+
     FancyShowCaseView(@NonNull Context context) {
         super(context);
-    }
 
-    FancyShowCaseView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    FancyShowCaseView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    FancyShowCaseView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     // Tag for container view
@@ -107,7 +103,6 @@ public class FancyShowCaseView extends FrameLayout {
     private int mCenterX, mCenterY, mRadius;
     private ViewGroup mRoot;
     private SharedPreferences mSharedPreferences;
-    private Calculator mCalculator;
 
     private int mFocusPositionX, mFocusPositionY, mFocusCircleRadius, mFocusRectangleWidth, mFocusRectangleHeight;
 
@@ -121,6 +116,10 @@ public class FancyShowCaseView extends FrameLayout {
     private int circlePadding;
 
     private OnViewInflateListenerV2 mViewInflateListenerV2;
+
+    private OnViewInflateListenerV3 mViewInflateListenerV3;
+
+    private List<FocusDescriptor> focusDescriptorList = new ArrayList<>();
 
     /**
      * Constructor for FancyShowCaseView
@@ -228,6 +227,24 @@ public class FancyShowCaseView extends FrameLayout {
         this.mViewInflateListenerV2 = viewInflateListenerV2;
     }
 
+    public void setCustomView(int layout, OnViewInflateListenerV3 onViewInflateListener) {
+        mCustomViewRes = layout;
+        mViewInflateListenerV3 = onViewInflateListener;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+    public void setCustomView(int layout) {
+        setCustomView(layout, new AutoPositionViewInflateListener());
+    }
+
+    public void addFocusDescriptor(FocusDescriptor fd) {
+        focusDescriptorList.add(fd);
+    }
+
+    public void setFocusAnimationEnabled(boolean enabled) {
+        mFocusAnimationEnabled = enabled;
+    }
+
     /**
      * Shows FancyShowCaseView
      */
@@ -239,19 +256,15 @@ public class FancyShowCaseView extends FrameLayout {
             return;
         }
 
-        mCalculator = new Calculator(mActivity, mFocusShape, mView, mFocusCircleRadiusFactor,
-                mFitSystemWindows);
-        /*Bitmap bitmap = Bitmap.createBitmap(mCalculator.getBitmapWidth(), mCalculator.getBitmapHeight(),
-                Bitmap.Config.ARGB_8888);
-        bitmap.eraseColor(mBackgroundColor);*/
-
         ViewGroup androidContent = (ViewGroup) mActivity.findViewById(android.R.id.content);
         mRoot = (ViewGroup) androidContent.getParent().getParent();
         FancyShowCaseView visibleView = (FancyShowCaseView) mRoot.findViewWithTag(CONTAINER_TAG);
         setClickable(true);
+
         if (visibleView == null) {
-            //mContainer = new FrameLayout(mActivity);
+
             setTag(CONTAINER_TAG);
+
             if (mCloseOnTouch) {
                 setOnClickListener(new OnClickListener() {
                     @Override
@@ -260,50 +273,75 @@ public class FancyShowCaseView extends FrameLayout {
                     }
                 });
             }
-            setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
+
+            setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             mRoot.addView(this);
 
+            if (focusDescriptorList.size() > 0) {
 
-            FancyImageView imageView = new FancyImageView(mActivity);
-            if (mCalculator.hasFocus()) {
-                //Utils.drawFocusCircle(bitmap, focusPoint, focusPoint[2]);
-                mCenterX = mCalculator.getCircleCenterX();
-                mCenterY = mCalculator.getCircleCenterY();
-                mRadius = mCalculator.getViewRadius();
-            }
+                FancyImageViewV2 imageView = new FancyImageViewV2(mActivity);
+                imageView.setAnimationEnable(mFocusAnimationEnabled);
+                imageView.setMaskLayerColor(mBackgroundColor);
+                imageView.setFocusDescriptors(focusDescriptorList);
 
+                imageView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
 
-            imageView.setParameters(mBackgroundColor, mCalculator);
-            if (mFocusRectangleWidth > 0 && mFocusRectangleHeight > 0) {
-                mCalculator.setRectPosition(mFocusPositionX, mFocusPositionY, mFocusRectangleWidth, mFocusRectangleHeight);
-            }
-            if (mFocusCircleRadius > 0) {
-                mCalculator.setCirclePosition(mFocusPositionX, mFocusPositionY, mFocusCircleRadius);
-            }
-            mCalculator.setRoundRectPadding(roundRectPaddingLeft, roundRectPaddingTop, roundRectPaddingRight, roundRectPaddingBottom);
-            mCalculator.setCirclePadding(circlePadding);
+                addView(imageView);
 
-            imageView.setAnimationEnabled(mFocusAnimationEnabled);
-            imageView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
-            if (mFocusBorderColor != 0 && mFocusBorderSize > 0) {
-                imageView.setBorderParameters(mFocusBorderColor, mFocusBorderSize);
-            }
-            if (mRoundRectRadius >= 0) {
-                imageView.setRoundRectRadius(mRoundRectRadius);
-            }
-            //imageView.setImageBitmap(bitmap);
-            addView(imageView);
+                if (mCustomViewRes == 0) {
+                    inflateTitleView();
+                } else {
+                    inflateCustomView(mCustomViewRes, mViewInflateListener);
+                }
 
-            if (mCustomViewRes == 0) {
-                inflateTitleView();
             } else {
-                inflateCustomView(mCustomViewRes, mViewInflateListener);
+
+                FancyImageView imageView = new FancyImageView(mActivity);
+
+                Calculator mCalculator = new Calculator(mActivity, mFocusShape, mView, mFocusCircleRadiusFactor,
+                        mFitSystemWindows);
+
+                if (mCalculator.hasFocus()) {
+                    //Utils.drawFocusCircle(bitmap, focusPoint, focusPoint[2]);
+                    mCenterX = mCalculator.getCircleCenterX();
+                    mCenterY = mCalculator.getCircleCenterY();
+                    mRadius = mCalculator.getViewRadius();
+                }
+
+
+                imageView.setParameters(mBackgroundColor, mCalculator);
+                if (mFocusRectangleWidth > 0 && mFocusRectangleHeight > 0) {
+                    mCalculator.setRectPosition(mFocusPositionX, mFocusPositionY, mFocusRectangleWidth, mFocusRectangleHeight);
+                }
+                if (mFocusCircleRadius > 0) {
+                    mCalculator.setCirclePosition(mFocusPositionX, mFocusPositionY, mFocusCircleRadius);
+                }
+                mCalculator.setRoundRectPadding(roundRectPaddingLeft, roundRectPaddingTop, roundRectPaddingRight, roundRectPaddingBottom);
+                mCalculator.setCirclePadding(circlePadding);
+
+                imageView.setAnimationEnabled(mFocusAnimationEnabled);
+                imageView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+                if (mFocusBorderColor != 0 && mFocusBorderSize > 0) {
+                    imageView.setBorderParameters(mFocusBorderColor, mFocusBorderSize);
+                }
+                if (mRoundRectRadius >= 0) {
+                    imageView.setRoundRectRadius(mRoundRectRadius);
+                }
+                //imageView.setImageBitmap(bitmap);
+                addView(imageView);
+
+                if (mCustomViewRes == 0) {
+                    inflateTitleView();
+                } else {
+                    inflateCustomView(mCustomViewRes, mViewInflateListener);
+                }
+
             }
 
             startEnterAnimation();
-            writeShown();
+            /*writeShown();*/
         }
     }
 
@@ -391,6 +429,9 @@ public class FancyShowCaseView extends FrameLayout {
         }
         if (mViewInflateListenerV2 != null) {
             mViewInflateListenerV2.onViewInflated(view, mCenterX, mCenterY);
+        }
+        if (mViewInflateListenerV3 != null) {
+            mViewInflateListenerV3.onViewInflated(view, focusDescriptorList);
         }
     }
 
@@ -513,7 +554,6 @@ public class FancyShowCaseView extends FrameLayout {
         mDismissListener = dismissListener;
     }
 
-
     /**
      * Builder class for {@link FancyShowCaseView}
      */
@@ -542,7 +582,7 @@ public class FancyShowCaseView extends FrameLayout {
         private DismissListener mDismissListener = null;
         private int mFocusBorderSize;
         private int mFocusPositionX, mFocusPositionY, mFocusCircleRadius, mFocusRectangleWidth, mFocusRectangleHeight;
-        private boolean mFocusAnimationEnabled = true;
+        private boolean mFocusAnimationEnabled;
 
         private int roundRectPaddingLeft;
         private int roundRectPaddingTop;
