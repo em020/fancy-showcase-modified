@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity {
         foo.addFocusDescriptor(new FocusDescriptor().shape(FocusShape.ROUNDED_RECTANGLE)
                 .target(this, view)
                 .rectRadius(0)
-                .rectPadding(-20, 30, -20, 60)
+                .rectPaddingDp(this, 8, 8, 8, 8)
                 .borderColor(Color.RED)
                 .borderSize(3));
 
