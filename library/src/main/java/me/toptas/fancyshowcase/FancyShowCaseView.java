@@ -121,6 +121,8 @@ public class FancyShowCaseView extends FrameLayout {
 
     private List<FocusDescriptor> focusDescriptorList = new ArrayList<>();
 
+    private List<Runnable> onDismissListeners = new ArrayList<>();
+
     /**
      * Constructor for FancyShowCaseView
      *
@@ -251,6 +253,20 @@ public class FancyShowCaseView extends FrameLayout {
 
     public void setExitAnimation(Animation animation) {
         this.mExitAnimation = animation;
+    }
+
+    public void addOnDismissListener(Runnable onDismissListener) {
+        onDismissListeners.add(onDismissListener);
+    }
+
+    public void putBoolPrefOnDismiss(final String prefFileName, final String prefKey, final boolean value) {
+        addOnDismissListener(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences sp = mActivity.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
+                sp.edit().putBoolean(prefKey, value).apply();
+            }
+        });
     }
 
     /**
@@ -578,6 +594,13 @@ public class FancyShowCaseView extends FrameLayout {
         mRoot.removeView(this);
         if (mDismissListener != null) {
             mDismissListener.onDismiss(mId);
+        }
+        if (onDismissListeners != null) {
+            for (Runnable runnable : onDismissListeners) {
+                if (runnable != null) {
+                    runnable.run();
+                }
+            }
         }
     }
 

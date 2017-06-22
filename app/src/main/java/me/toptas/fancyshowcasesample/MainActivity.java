@@ -109,6 +109,8 @@ public class MainActivity extends BaseActivity {
             }
         }));
 
+        foo.putBoolPrefOnDismiss("abc", "def", false);
+
         foo.show();
 
     }
