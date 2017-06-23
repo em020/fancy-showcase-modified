@@ -12,24 +12,26 @@ import android.view.View;
 
 public class FocusDescriptor {
 
-    public FocusShape focusShape;
+    FocusShape focusShape;
 
-    public int centerX;
-    public int centerY;
+    int centerX;
+    int centerY;
 
-    public int rectWidth;
-    public int rectHeight;
-    public int roundRectRadius = 20;
-    public int roundRectPaddingLeft;
-    public int roundRectPaddingTop;
-    public int roundRectPaddingRight;
-    public int roundRectPaddingBottom;
+    int rectWidth;
+    int rectHeight;
+    int roundRectRadius = 20;
+    int roundRectPaddingLeft;
+    int roundRectPaddingTop;
+    int roundRectPaddingRight;
+    int roundRectPaddingBottom;
 
-    public int circleRadius;
-    public int circlePadding;
+    int circleRadius;
+    int circlePadding;
 
-    public int focusBorderColor = Color.TRANSPARENT;
-    public int focusBorderSize;
+    int focusBorderColor = Color.TRANSPARENT;
+    int focusBorderSize;
+
+    boolean noHole;
 
 
     public FocusDescriptor shape(FocusShape shape) {
@@ -137,7 +139,13 @@ public class FocusDescriptor {
         return borderSize(px);
     }
 
+    public FocusDescriptor noHole(boolean value) {
+        this.noHole = value;
+        return this;
+    }
 
+
+    @SuppressWarnings("WeakerAccess")
     public Rect getFocusAreaRect() {
         Rect rect = null;
 

@@ -134,7 +134,11 @@ public class FancyImageViewV2 extends AppCompatImageView {
 
         float radius = (float) (fd.circleRadius + fd.circlePadding + mAnimCounter * mAnimMoveFactor);
 
-        canvas.drawCircle(fd.centerX, fd.centerY, radius, mErasePaint);
+        if (fd.noHole) {
+            // if no hole, dont make hole
+        } else {
+            canvas.drawCircle(fd.centerX, fd.centerY, radius, mErasePaint);
+        }
 
         if (fd.focusBorderSize > 0) {
             mBorderPaint.setColor(fd.focusBorderColor);
@@ -157,7 +161,12 @@ public class FancyImageViewV2 extends AppCompatImageView {
 
         RectF rectF = new RectF();
         rectF.set(left, top, right, bottom);
-        canvas.drawRoundRect(rectF, fd.roundRectRadius, fd.roundRectRadius, mErasePaint);
+
+        if (fd.noHole) {
+            // if no hole, dont make hole
+        } else {
+            canvas.drawRoundRect(rectF, fd.roundRectRadius, fd.roundRectRadius, mErasePaint);
+        }
 
         if (fd.focusBorderSize > 0) {
             mBorderPaint.setColor(fd.focusBorderColor);
