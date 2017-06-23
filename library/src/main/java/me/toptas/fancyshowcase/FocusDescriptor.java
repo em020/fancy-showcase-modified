@@ -19,7 +19,7 @@ public class FocusDescriptor {
 
     int rectWidth;
     int rectHeight;
-    int roundRectRadius = 20;
+    int roundRectRadius;
     int roundRectPaddingLeft;
     int roundRectPaddingTop;
     int roundRectPaddingRight;
@@ -33,6 +33,12 @@ public class FocusDescriptor {
 
     boolean noHole;
 
+    public FocusDescriptor() {
+    }
+
+    public FocusDescriptor(Context context) {
+        roundRectRadius = Utils.dp2pxV2(context, 4);
+    }
 
     public FocusDescriptor shape(FocusShape shape) {
         focusShape = shape;
