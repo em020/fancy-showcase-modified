@@ -39,6 +39,16 @@ public class FocusDescriptor {
         return this;
     }
 
+    public FocusDescriptor rect() {
+        focusShape = FocusShape.ROUNDED_RECTANGLE;
+        return this;
+    }
+
+    public FocusDescriptor circle() {
+        focusShape = FocusShape.CIRCLE;
+        return this;
+    }
+
     public FocusDescriptor target(Activity activity, View view) {
 
         // 我们想获得的focus area的coords是相对于activity的“内容区域” (content view, 也就是根布局) 的，为什么呢，
