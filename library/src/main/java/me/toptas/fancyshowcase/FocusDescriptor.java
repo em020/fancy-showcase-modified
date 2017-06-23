@@ -12,6 +12,8 @@ import android.view.View;
 
 public class FocusDescriptor {
 
+    private Context context;
+
     FocusShape focusShape;
 
     int centerX;
@@ -33,10 +35,14 @@ public class FocusDescriptor {
 
     boolean noHole;
 
+    /**
+     * @deprecated 使用带context的构造器版本
+     */
     public FocusDescriptor() {
     }
 
     public FocusDescriptor(Context context) {
+        this.context = context;
         roundRectRadius = Utils.dp2pxV2(context, 4);
     }
 
@@ -98,10 +104,20 @@ public class FocusDescriptor {
         return this;
     }
 
+    /**
+     * @deprecated 使用带context的构造器，这里可以省略context
+     */
     public FocusDescriptor rectRadiusDp(Context context, int roundRectRadiusInDp) {
         int px = Utils.dp2pxV2(context, roundRectRadiusInDp);
         return rectRadius(px);
     }
+
+    public FocusDescriptor rectRadiusDp(int roundRectRadiusInDp) {
+        int px = Utils.dp2pxV2(context, roundRectRadiusInDp);
+        return rectRadius(px);
+    }
+
+
 
     public FocusDescriptor rectPadding(int left, int top, int right, int bottom) {
         roundRectPaddingLeft = left;
@@ -111,7 +127,18 @@ public class FocusDescriptor {
         return this;
     }
 
+    /**
+     * @deprecated 使用带context的构造器，这里可以省略context
+     */
     public FocusDescriptor rectPaddingDp(Context context, int left, int top, int right, int bottom) {
+        int l = Utils.dp2pxV2(context, left);
+        int t = Utils.dp2pxV2(context, top);
+        int r = Utils.dp2pxV2(context, right);
+        int b = Utils.dp2pxV2(context, bottom);
+        return rectPadding(l, t, r ,b);
+    }
+
+    public FocusDescriptor rectPaddingDp(int left, int top, int right, int bottom) {
         int l = Utils.dp2pxV2(context, left);
         int t = Utils.dp2pxV2(context, top);
         int r = Utils.dp2pxV2(context, right);
@@ -135,7 +162,15 @@ public class FocusDescriptor {
         return this;
     }
 
+    /**
+     * @deprecated 使用带context的构造器，这里可以省略context
+     */
     public FocusDescriptor circlePaddingDp(Context context, int paddingDp) {
+        int px = Utils.dp2pxV2(context, paddingDp);
+        return circlePadding(px);
+    }
+
+    public FocusDescriptor circlePaddingDp(int paddingDp) {
         int px = Utils.dp2pxV2(context, paddingDp);
         return circlePadding(px);
     }
@@ -150,7 +185,15 @@ public class FocusDescriptor {
         return this;
     }
 
+    /**
+     * @deprecated 使用带context的构造器，这里可以省略context
+     */
     public FocusDescriptor borderSizeDp(Context context, int borderSizeDp) {
+        int px = Utils.dp2pxV2(context, borderSizeDp);
+        return borderSize(px);
+    }
+
+    public FocusDescriptor borderSizeDp(int borderSizeDp) {
         int px = Utils.dp2pxV2(context, borderSizeDp);
         return borderSize(px);
     }
