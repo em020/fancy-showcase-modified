@@ -92,6 +92,7 @@ public class FocusDescriptor {
      * 注意，当通过参数指明区域时，参数的坐标必须是相对于根布局区域的，具体请参考target方法内的注释
      */
     public FocusDescriptor rect(int centerX, int centerY, int width, int height) {
+        this.focusShape = FocusShape.ROUNDED_RECTANGLE;
         this.centerX = centerX;
         this.centerY = centerY;
         this.rectWidth = width;
