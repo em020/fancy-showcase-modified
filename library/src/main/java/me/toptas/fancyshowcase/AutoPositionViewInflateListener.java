@@ -81,7 +81,7 @@ public class AutoPositionViewInflateListener implements OnViewInflateListenerV3 
 
                 View poster = null;
                 for (int i = 0; i < anchors.length; i++) {
-                    if (anchors[i] != null) {
+                    if (anchors[i] != null && !focusRects[i].isEmpty()) {
                         ViewGroup.LayoutParams params = anchors[i].getLayoutParams();
                         params.height = focusRects[i].height();
                         params.width = focusRects[i].width();
@@ -100,7 +100,7 @@ public class AutoPositionViewInflateListener implements OnViewInflateListenerV3 
                             // 第二个post，移动views
 
                             for (int i = 0; i < anchors.length; i++) {
-                                if (anchors[i] != null) {
+                                if (anchors[i] != null && !focusRects[i].isEmpty()) {
                                     float anchorCenterX = anchors[i].getLeft() + anchors[i].getWidth() / 2f;
                                     float anchorCenterY = anchors[i].getTop() + anchors[i].getHeight() / 2f;
 
